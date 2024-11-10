@@ -1,5 +1,5 @@
 import prisma from "../../utils/prisma";
-import { TBook } from "./book.types";
+import { TBook } from "./book.type";
 
 
 const createBookIntoDb = async (payload: TBook) => {
@@ -33,6 +33,14 @@ const updateBookIntoDB = async (bookId: string, payload: Partial<TBook>) => {
         data: payload
     });
     return result;
+};
+
+const deleteBookFromDB = async (bookId: string) => {
+    const result = await prisma.book.delete({
+        where: {
+            bookId: bookId
+        }
+    })
 }
 
 export const bookServices = {
@@ -40,4 +48,5 @@ export const bookServices = {
     getAllBooksFromDB,
     getSingleBookFromDB,
     updateBookIntoDB,
+    deleteBookFromDB
 }
