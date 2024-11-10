@@ -4,8 +4,9 @@ export type TErrorMessages = {
 }[];
 
 export type TGenericErrorResponse = {
-    statusCode: number;
+    success: boolean;
+    status: number;
     message: string;
-    errorMessages: TErrorMessages;
-    stack?:string;
+    errorMessages?: TErrorMessages;
+    stack?: string;
 };

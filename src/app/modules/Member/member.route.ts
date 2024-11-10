@@ -1,16 +1,24 @@
 import express from 'express';
 import { memberControllers } from './member.controller';
+import validate from '../../middlewares/validate';
+import { memberValidations } from './member.validation';
 
 
 const router = express.Router();
 
-router.post('/', memberControllers.createMember);
+router.post(
+    '/',
+    validate(memberValidations.createMemberZod),
+    memberControllers.createMember);
 
 router.get('/', memberControllers.getAllMembers);
 
 router.get('/:memberId', memberControllers.getSingleMember);
 
-router.put('/:memberId', memberControllers.updateMember);
+router.put(
+    '/:memberId',
+    validate(memberValidations.updateMemberZod),
+    memberControllers.updateMember);
 
 router.delete('/:memberId', memberControllers.deleteMember);
 

@@ -1,7 +1,21 @@
+import AppError from "../../errors/AppError";
 import prisma from "../../utils/prisma";
 import { TBorrow, TReturn } from "./borrow.type";
 
 const borrowBookFromDB = async (payload: TBorrow) => {
+
+    //first find the book
+    const book = await prisma.book.findUnique({
+        where: {
+            bookId: payload.bookId
+        }
+    });
+
+    //throw error if book not found
+    if (!book) {
+        throw new AppError(404, "book not found")
+    }
+
     const result = await prisma.borrowRecord.create({
         data: {
             ...payload,
@@ -18,6 +32,19 @@ const borrowBookFromDB = async (payload: TBorrow) => {
 };
 
 const returnBookIntoDB = async (payload: TReturn) => {
+
+    //first check if it's borrowed data exist in the database
+    const data = await prisma.borrowRecord.findUnique({
+        where: {
+            borrowId: payload.borrowId
+        }
+    });
+
+    //if the data is not in the database then throw error
+    if (!data) {
+        throw new AppError(404, "Borrowed data not found")
+    }
+
     const result = await prisma.borrowRecord.update({
         where: {
             borrowId: payload.borrowId

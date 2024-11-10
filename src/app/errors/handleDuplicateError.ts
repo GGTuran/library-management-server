@@ -1,25 +1,23 @@
-import {  TErrorMessages, TGenericErrorResponse } from "../interface/error";
+import { TErrorMessages, TGenericErrorResponse } from "../interface/error";
 
-const handleDUplicateError = (err:any):TGenericErrorResponse =>{
+const handleDuplicateError = (err: any): TGenericErrorResponse => {
     const match = err.message.match(/"([^"]*)"/);
-
-
     const extractedMessage = match && match[1];
 
-    const errorMessages:TErrorMessages = [
+    const errorMessages: TErrorMessages = [
         {
-            path:'',
-            message:`${extractedMessage} is already exists`,
+            path: '',
+            message: `${extractedMessage} already exists`,
         },
     ];
 
-    const statusCode = 400;
-    return{
-        statusCode,
-        message:err.errorResponse.errmsg,
+    const status = 400;
+    return {
+        status,
+        message: `${extractedMessage} already exists`,
         errorMessages,
-        stack:err.stack
+        success: false,
     };
 };
 
-export default handleDUplicateError;
+export default handleDuplicateError;

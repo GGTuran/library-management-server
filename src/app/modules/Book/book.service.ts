@@ -1,3 +1,4 @@
+import AppError from "../../errors/AppError";
 import prisma from "../../utils/prisma";
 import { TBook } from "./book.type";
 
@@ -22,10 +23,28 @@ const getSingleBookFromDB = async (bookId: string) => {
             bookId: bookId
         }
     });
+
+    //if book not found
+    if (!result) {
+        throw new AppError(404, "book not found")
+    }
     return result;
 };
 
 const updateBookIntoDB = async (bookId: string, payload: Partial<TBook>) => {
+
+    //first find the book
+    const book = await prisma.book.findUnique({
+        where: {
+            bookId: bookId
+        }
+    });
+
+    //throw error if book not found
+    if (!book) {
+        throw new AppError(404, "book not found")
+    }
+
     const result = await prisma.book.update({
         where: {
             bookId: bookId
@@ -36,6 +55,19 @@ const updateBookIntoDB = async (bookId: string, payload: Partial<TBook>) => {
 };
 
 const deleteBookFromDB = async (bookId: string) => {
+
+    //first find the book
+    const book = await prisma.book.findUnique({
+        where: {
+            bookId: bookId
+        }
+    });
+
+    //throw error if book not found
+    if (!book) {
+        throw new AppError(404, "book not found")
+    }
+
     const result = await prisma.book.delete({
         where: {
             bookId: bookId
