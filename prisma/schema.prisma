@@ -17,13 +17,6 @@ model Book {
   borrowRecords   BorrowRecord[]
 }
 
-model Author {
-  authorId    String   @id @default(uuid())
-  name        String
-  bio         String
-  dateOfBirth DateTime
-}
-
 model Member {
   memberId       String         @id @default(uuid())
   name           String
