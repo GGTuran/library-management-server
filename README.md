@@ -94,11 +94,6 @@ modules
 │   └── borrow.service.ts
 │   ├── borrow.controller.ts
 │   ├── borrow.route.ts
-├── payment
-│   ├── payment.controller.ts
-│   ├── payment.model.ts
-│   ├── payment.route.ts
-│   └── payment.service.ts
 ├── member
 │   ├── member.type.ts
 │   └── member.validation.ts
